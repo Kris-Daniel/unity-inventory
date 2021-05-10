@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Inventory
+namespace InventorySystem
 {
 	[Serializable]
 	public class Stack
@@ -15,8 +15,18 @@ namespace Inventory
 		public int Amount
 		{
 			get => amount;
-			set => amount = Mathf.Clamp(value, 0, maxAmount);
+			set
+			{
+				int newAmount = Mathf.Clamp(value, 0, maxAmount);
+				int difference = newAmount - amount;
+				amount = newAmount;
+				if (Inventory != null)
+				{
+					Inventory.OnChange?.Invoke(resource, difference);
+				}
+			}
 		}
+
 		public int MaxAmount
 		{
 			get => maxAmount;
@@ -32,6 +42,8 @@ namespace Inventory
 
 		public bool IsFull => amount == maxAmount;
 		public float Fill => amount / maxAmount;
+		
+		public InventorySystem.Inventory Inventory { get; set; }
 
 		public static Stack Create(Resource resource, int amount, int maxCount)
 		{
