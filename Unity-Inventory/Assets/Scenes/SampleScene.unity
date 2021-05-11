@@ -389,9 +389,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stacks:
-  - resource: {fileID: 11400000, guid: 504430ba38603464dae832953e160983, type: 2}
-    amount: 0
-    maxAmount: 10
   - resource: {fileID: 11400000, guid: f0703341fc7cf43489ccc4de72da0e70, type: 2}
     amount: 0
     maxAmount: 20

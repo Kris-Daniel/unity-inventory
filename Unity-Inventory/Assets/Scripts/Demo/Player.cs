@@ -15,7 +15,7 @@ namespace Demo
 
 		void ChangeInventory(Resource resource, int difference)
 		{
-			print(resource + " => " + difference);
+			print(resource.name + " => " + difference);
 		}
 
 		void Update()

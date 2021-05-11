@@ -10,6 +10,8 @@ namespace InventorySystem
 
 		public delegate void InventoryChangeDelegate(Resource resource, int difference);
 		public InventoryChangeDelegate OnChange { get; set; } = delegate { };
+		
+		readonly List<Stack> stacksClone = new List<Stack>();
 
 		void Awake()
 		{
@@ -24,6 +26,11 @@ namespace InventorySystem
 					stacks[i].Inventory = this;
 				}
 			}
+
+			OnChange += (resource, difference) =>
+			{
+				CloneStacks();
+			};
 		}
 
 		public void AddStack(Stack stackToAdd)
@@ -59,12 +66,9 @@ namespace InventorySystem
 			int difference = oldAmount - stackToTake.Amount;
 			stackToTransfer.Amount += difference;
 		}
-
 		
-		List<Stack> stacksClone = new List<Stack>();
 		void OnValidate()
 		{
-			print("Validated");
 			foreach (var stack in stacks)
 			{
 				if (stack.MaxAmount < 1)
@@ -81,6 +85,39 @@ namespace InventorySystem
 				{
 					stack.Amount = stack.MaxAmount;
 				}
+			}
+			
+			if (stacksClone.Count != stacks.Count)
+			{
+				CloneStacks();
+			}
+			else
+			{
+				for (int i = 0; i < stacks.Count; i++)
+				{
+					if (stacks[i].Resource != stacksClone[i].Resource || stacks[i].MaxAmount != stacksClone[i].MaxAmount)
+					{
+						stacksClone.Clear();
+						OnValidate();
+						return;
+					}
+					if (stacks[i].Amount != stacksClone[i].Amount)
+					{
+						int difference = stacks[i].Amount - stacksClone[i].Amount;
+						stacksClone[i].Amount = stacks[i].Amount;
+						OnChange?.Invoke(stacks[i].Resource, difference);
+					}
+				}
+			}
+		}
+
+		void CloneStacks()
+		{
+			stacksClone.Clear();
+			foreach (var stack in stacks)
+			{
+				Stack stackClone = Stack.Create(stack.Resource, stack.Amount, stack.MaxAmount);
+				stacksClone.Add(stackClone);
 			}
 		}
 	}

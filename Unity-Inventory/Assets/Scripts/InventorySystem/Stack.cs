@@ -17,10 +17,11 @@ namespace InventorySystem
 			get => amount;
 			set
 			{
+				bool canInvoke = amount <= maxAmount && amount >= 0;
 				int newAmount = Mathf.Clamp(value, 0, maxAmount);
 				int difference = newAmount - amount;
 				amount = newAmount;
-				if (Inventory != null)
+				if (Inventory != null && canInvoke)
 				{
 					Inventory.OnChange?.Invoke(resource, difference);
 				}
