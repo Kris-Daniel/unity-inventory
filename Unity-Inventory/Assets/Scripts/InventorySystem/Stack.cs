@@ -41,9 +41,9 @@ namespace InventorySystem
 		}
 
 		public bool IsFull => amount == maxAmount;
-		public float Fill => amount / maxAmount;
+		public float Fill => (float) amount / maxAmount;
 		
-		public InventorySystem.Inventory Inventory { get; set; }
+		public Inventory Inventory { get; set; }
 
 		public static Stack Create(Resource resource, int amount, int maxCount)
 		{

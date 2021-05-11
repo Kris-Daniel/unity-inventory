@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace InventorySystem
@@ -9,7 +8,8 @@ namespace InventorySystem
 		[SerializeField] List<Stack> stacks;
 		public List<Stack> Stacks => stacks;
 
-		public Action<Resource, int> OnChange { get; set; }
+		public delegate void InventoryChangeDelegate(Resource resource, int difference);
+		public InventoryChangeDelegate OnChange { get; set; } = delegate { };
 
 		void Awake()
 		{
@@ -58,6 +58,30 @@ namespace InventorySystem
 			stackToTake.Amount -= amount;
 			int difference = oldAmount - stackToTake.Amount;
 			stackToTransfer.Amount += difference;
+		}
+
+		
+		List<Stack> stacksClone = new List<Stack>();
+		void OnValidate()
+		{
+			print("Validated");
+			foreach (var stack in stacks)
+			{
+				if (stack.MaxAmount < 1)
+				{
+					stack.MaxAmount = 1;
+				}
+				
+				if (stack.Amount < 0)
+				{
+					stack.Amount = 0;
+				}
+				
+				else if (stack.Amount > stack.MaxAmount)
+				{
+					stack.Amount = stack.MaxAmount;
+				}
+			}
 		}
 	}
 }
