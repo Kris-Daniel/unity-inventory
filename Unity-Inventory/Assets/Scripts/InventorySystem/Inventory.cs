@@ -34,7 +34,7 @@ namespace InventorySystem
 
 		public void AddStack(Stack stackToAdd)
 		{
-			if (stackToAdd.Resource != null)
+			if (stackToAdd != null && stackToAdd.Resource != null)
 			{
 				stacks.Add(stackToAdd);
 				stackToAdd.Inventory = this;
@@ -59,13 +59,16 @@ namespace InventorySystem
 
 		public static void TransferResources(Stack stackToTake, Stack stackToTransfer, int amount)
 		{
-			amount = amount > stackToTake.Amount ? stackToTake.Amount : amount;
-			int oldAmount = stackToTake.Amount;
-			int maxAmountToAdd = stackToTransfer.MaxAmount - stackToTransfer.Amount;
-			amount = amount <= maxAmountToAdd ? amount : maxAmountToAdd;
-			stackToTake.Amount -= amount;
-			int difference = oldAmount - stackToTake.Amount;
-			stackToTransfer.Amount += difference;
+			if (stackToTake != null && stackToTransfer != null)
+			{
+				amount = amount > stackToTake.Amount ? stackToTake.Amount : amount;
+				int oldAmount = stackToTake.Amount;
+				int maxAmountToAdd = stackToTransfer.MaxAmount - stackToTransfer.Amount;
+				amount = amount <= maxAmountToAdd ? amount : maxAmountToAdd;
+				stackToTake.Amount -= amount;
+				int difference = oldAmount - stackToTake.Amount;
+				stackToTransfer.Amount += difference;
+			}
 		}
 
 	#if UNITY_EDITOR
