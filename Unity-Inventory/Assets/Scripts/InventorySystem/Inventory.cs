@@ -62,6 +62,8 @@ namespace InventorySystem
 		{
 			amount = amount > stackToTake.Amount ? stackToTake.Amount : amount;
 			int oldAmount = stackToTake.Amount;
+			int maxAmountToAdd = stackToTransfer.MaxAmount - stackToTransfer.Amount;
+			amount = amount <= maxAmountToAdd ? amount : maxAmountToAdd;
 			stackToTake.Amount -= amount;
 			int difference = oldAmount - stackToTake.Amount;
 			stackToTransfer.Amount += difference;
