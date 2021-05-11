@@ -7,10 +7,8 @@ namespace InventorySystem
 	public class Inventory : MonoBehaviour
 	{
 		[SerializeField] List<Stack> stacks;
-		
-		public Stack this[int i] => stacks[i];
-		public int StacksCount => stacks.Count;
-		
+		public List<Stack> Stacks => stacks;
+
 		public Action<Resource, int> OnChange { get; set; }
 
 		void Awake()
@@ -37,12 +35,28 @@ namespace InventorySystem
 			}
 		}
 
-		public static void TransferResources(Stack stackToGet, Stack stackToTransfer, int amount)
+		public Stack GetStack(Resource resource)
 		{
-			amount = amount > stackToTransfer.Amount ? stackToTransfer.Amount : amount;
-			int oldAmount = stackToGet.Amount;
-			stackToGet.Amount -= amount;
-			int difference = oldAmount - stackToGet.Amount;
+			Stack result = null;
+			
+			foreach (var stack in stacks)
+			{
+				if (stack.Resource == resource)
+				{
+					result = stack;
+					break;
+				}
+			}
+
+			return result;
+		}
+
+		public static void TransferResources(Stack stackToTake, Stack stackToTransfer, int amount)
+		{
+			amount = amount > stackToTake.Amount ? stackToTake.Amount : amount;
+			int oldAmount = stackToTake.Amount;
+			stackToTake.Amount -= amount;
+			int difference = oldAmount - stackToTake.Amount;
 			stackToTransfer.Amount += difference;
 		}
 	}
