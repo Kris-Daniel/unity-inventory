@@ -17,9 +17,20 @@ namespace InventorySystem.Editor
 		{
 			base.OnInspectorGUI();
 			
-			if (GUILayout.Button("Update"))
+			if (GUILayout.Button("Fill"))
 			{
-				Debug.Log("UpdateInventory");
+				foreach (var inventoryStack in inventory.Stacks)
+				{
+					inventoryStack.Amount = inventoryStack.MaxAmount;
+				}
+			}
+			
+			if (GUILayout.Button("Clear"))
+			{
+				foreach (var inventoryStack in inventory.Stacks)
+				{
+					inventoryStack.Amount = 0;
+				}
 			}
 		}
 	}

@@ -10,8 +10,6 @@ namespace InventorySystem
 
 		public delegate void InventoryChangeDelegate(Resource resource, int difference);
 		public InventoryChangeDelegate OnChange { get; set; } = delegate { };
-		
-		readonly List<Stack> stacksClone = new List<Stack>();
 
 		void Awake()
 		{
@@ -26,11 +24,12 @@ namespace InventorySystem
 					stacks[i].Inventory = this;
 				}
 			}
-
+#if UNITY_EDITOR
 			OnChange += (resource, difference) =>
 			{
 				CloneStacks();
 			};
+#endif
 		}
 
 		public void AddStack(Stack stackToAdd)
@@ -68,6 +67,9 @@ namespace InventorySystem
 			int difference = oldAmount - stackToTake.Amount;
 			stackToTransfer.Amount += difference;
 		}
+
+	#if UNITY_EDITOR
+		readonly List<Stack> stacksClone = new List<Stack>();
 		
 		void OnValidate()
 		{
@@ -122,5 +124,6 @@ namespace InventorySystem
 				stacksClone.Add(stackClone);
 			}
 		}
+	#endif
 	}
 }
