@@ -46,6 +46,11 @@ namespace InventorySystem
 		
 		public Inventory Inventory { get; set; }
 
+		public Stack Clone()
+		{
+			return Create(resource, amount, maxAmount);
+		}
+
 		public static Stack Create(Resource resource, int amount, int maxCount)
 		{
 			return new Stack {resource = resource, maxAmount = maxCount, amount = amount};

@@ -71,7 +71,7 @@ namespace InventorySystem
 			}
 		}
 
-	#if UNITY_EDITOR
+#if UNITY_EDITOR
 		readonly List<Stack> stacksClone = new List<Stack>();
 		
 		void OnValidate()
@@ -123,10 +123,9 @@ namespace InventorySystem
 			stacksClone.Clear();
 			foreach (var stack in stacks)
 			{
-				Stack stackClone = Stack.Create(stack.Resource, stack.Amount, stack.MaxAmount);
-				stacksClone.Add(stackClone);
+				stacksClone.Add(stack.Clone());
 			}
 		}
-	#endif
+#endif
 	}
 }

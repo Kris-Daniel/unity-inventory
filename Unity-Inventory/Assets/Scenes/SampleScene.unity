@@ -528,8 +528,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stacks:
+  - resource: {fileID: 11400000, guid: 504430ba38603464dae832953e160983, type: 2}
+    amount: 0
+    maxAmount: 10
   - resource: {fileID: 11400000, guid: f0703341fc7cf43489ccc4de72da0e70, type: 2}
-    amount: 10
+    amount: 0
     maxAmount: 10
 --- !u!114 &1809679555
 MonoBehaviour:
@@ -554,7 +557,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 1
+  m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
