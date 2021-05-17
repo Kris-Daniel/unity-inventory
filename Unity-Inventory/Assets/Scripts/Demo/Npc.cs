@@ -10,11 +10,11 @@ namespace Demo
 		
 		void OnTriggerEnter(Collider other)
 		{
-			if (other.TryGetComponent(out IInventoryUser inventoryUser))
+			if (other.TryGetComponent(out IInventoryUser playerInventoryUser))
 			{
 				foreach (var inventoryStack in inventory.Stacks)
 				{
-					Stack stack = inventoryUser.Inventory.GetStack(inventoryStack.Resource);
+					Stack stack = playerInventoryUser.Inventory.GetStack(inventoryStack.Resource);
 					Inventory.TransferResources(inventoryStack, stack, 3);
 				}
 			}

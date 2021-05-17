@@ -2,6 +2,6 @@
 {
 	public interface IInventoryUser
 	{
-		public Inventory Inventory { get; }
+		Inventory Inventory { get; }
 	}
 }

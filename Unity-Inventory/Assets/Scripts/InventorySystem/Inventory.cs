@@ -11,16 +11,19 @@ namespace InventorySystem
 		public delegate void InventoryChangeDelegate(Resource resource, int difference);
 		public InventoryChangeDelegate OnChange { get; set; } = delegate { };
 
+		readonly Dictionary<Resource, Stack> stacksDictionary = new Dictionary<Resource, Stack>();
+
 		void Awake()
 		{
 			for (int i = stacks.Count - 1; i >= 0; i--)
 			{
-				if (stacks[i].Resource == null)
+				if (stacks[i].Resource == null || stacksDictionary.ContainsKey(stacks[i].Resource))
 				{
 					stacks.Remove(stacks[i]);
 				}
 				else
 				{
+					stacksDictionary.Add(stacks[i].Resource, stacks[i]);
 					stacks[i].Inventory = this;
 				}
 			}
@@ -37,6 +40,7 @@ namespace InventorySystem
 			if (stackToAdd != null && stackToAdd.Resource != null)
 			{
 				stacks.Add(stackToAdd);
+				stacksDictionary.Add(stackToAdd.Resource, stackToAdd);
 				stackToAdd.Inventory = this;
 			}
 		}
@@ -44,14 +48,10 @@ namespace InventorySystem
 		public Stack GetStack(Resource resource)
 		{
 			Stack result = null;
-			
-			foreach (var stack in stacks)
+
+			if (stacksDictionary.ContainsKey(resource))
 			{
-				if (stack.Resource == resource)
-				{
-					result = stack;
-					break;
-				}
+				result = stacksDictionary[resource];
 			}
 
 			return result;
